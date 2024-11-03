@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <vector>
+#include <climits>
 
 MemoryManager::MemoryManager(unsigned int wordSize, std::function<int(int, void*)> allocator) : 
     wordSize(wordSize), 
