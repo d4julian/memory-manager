@@ -3,7 +3,6 @@
 #include <functional>
 #include <cstddef>
 #include <cstdint>
-#include <vector>
 
 /* Returns word offset of hole selected by the best fit memory allocation algorithm, and -1 if there is no fit */
 int bestFit(int sizeInWords, void *list);
@@ -66,9 +65,18 @@ public:
     /* Returns the byte limit of the current memory block */
     unsigned getMemoryLimit() const;
 
+    struct Hole {
+        unsigned int offset; // Starting word index of the hole
+        unsigned int size;   // Size of the hole in words
+
+        // Constructor for convenience
+        Hole(unsigned int offset, unsigned int size) : offset(offset), size(size) {}
+    };
+
 private:
     // Internal data structures
     // Using a doubly linked list to keep track of memory blocks
+    
     struct Block {
         unsigned int offset; // Offset from the start of the memory block
         unsigned int size;   // Size of the block in words
@@ -83,7 +91,7 @@ private:
     // Member variables
     unsigned int wordSize;                       // Word size in bytes
     unsigned int totalWords;                     // Total number of words in the memory block
-    void* memoryStart;                           // Pointer to the start of the memory block
+    uint8_t* memoryStart;                           // Pointer to the start of the memory block
     std::function<int(int, void*)> allocator;    // Allocation algorithm function pointer
     bool initialized; // Flag indicating if the memory manager is initialized
 
